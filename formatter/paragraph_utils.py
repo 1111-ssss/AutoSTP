@@ -72,7 +72,7 @@ def process_paragraphs(doc):
             pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
             pf.first_line_indent = Cm(0)
             pf.space_before = Pt(6)
-            pf.space_after = Pt(6)
+            pf.space_after = Pt(0)
             continue
 
         # Обычный текст

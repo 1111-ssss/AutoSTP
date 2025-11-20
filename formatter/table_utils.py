@@ -1,6 +1,7 @@
 from docx.shared import Pt, Cm, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.table import WD_ALIGN_VERTICAL
+from .paragraph_utils import set_paragraph_format
 
 def process_tables(doc):
     """Обработка всех таблиц в документе"""
@@ -39,25 +40,26 @@ def process_tables(doc):
         if prev_sibling is not None and prev_sibling.tag.endswith('p'):
             for para in doc.paragraphs:
                 if para._element == prev_sibling:
-                    set_table_adjacent_format(para, after=False)
+                    # set_table_adjacent_format(para, after=False)
+                    set_paragraph_format(
+                        para,
+                        alignment=WD_ALIGN_PARAGRAPH.LEFT,
+                        space_after=0,
+                        space_before=6,
+                        first_line_indent=Cm(0)
+                    )
                     break
 
         # Найти следующий параграф
         if next_sibling is not None and next_sibling.tag.endswith('p'):
             for para in doc.paragraphs:
                 if para._element == next_sibling:
-                    set_table_adjacent_format(para, after=True)
+                    # set_table_adjacent_format(para, after=True)
+                    set_paragraph_format(
+                        para,
+                        alignment=WD_ALIGN_PARAGRAPH.JUSTIFY,
+                        space_after=6,
+                        space_before=0,
+                        first_line_indent=Cm(0)
+                    )
                     break
-
-def set_table_adjacent_format(para, after=True):
-    """Форматирование параграфа до/после таблицы"""
-    from .paragraph_utils import set_paragraph_format
-    space_after = 6 if after else 0
-    space_before = 6 if not after else 0
-    set_paragraph_format(
-        para,
-        alignment=WD_ALIGN_PARAGRAPH.LEFT,
-        space_after=space_after,
-        space_before=space_before,
-        first_line_indent=Cm(0)
-    )

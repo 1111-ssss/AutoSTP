@@ -26,10 +26,10 @@ def add_header(doc, fio, group, lab_number):
     header_para = header.paragraphs[0] if header.paragraphs else header.add_paragraph()
     header_text = f"{fio} {group} Лабораторная работа № {lab_number}"
     header_para.text = header_text
-    header_para.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    set_paragraph_format(header_para, font_size=12, first_line_indent=Cm(0), alignment=WD_ALIGN_PARAGRAPH.RIGHT)
+    # header_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    set_paragraph_format(header_para, font_size=14, first_line_indent=Cm(0), alignment=WD_ALIGN_PARAGRAPH.CENTER)
 
-def format_document_stp(input_path, output_path, fio="Иванов И. И.", group="П32", lab_number=19):
+def format_document_stp(input_path, output_path, fio, group, lab_number):
     doc = Document(input_path)
     apply_base_style(doc)
     add_header(doc, fio, group, lab_number)
