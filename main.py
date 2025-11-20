@@ -54,7 +54,7 @@ def main():
     parser.add_argument(
         "--group", "-g",
         default=default_group,
-        help="Номер группы (по умолчанию: {default_group})"
+        help=f"Номер группы (по умолчанию: {default_group})"
     )
     
     parser.add_argument(
