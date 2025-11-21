@@ -40,7 +40,6 @@ def process_tables(doc):
         if prev_sibling is not None and prev_sibling.tag.endswith('p'):
             for para in doc.paragraphs:
                 if para._element == prev_sibling:
-                    # set_table_adjacent_format(para, after=False)
                     set_paragraph_format(
                         para,
                         alignment=WD_ALIGN_PARAGRAPH.LEFT,
@@ -54,12 +53,5 @@ def process_tables(doc):
         if next_sibling is not None and next_sibling.tag.endswith('p'):
             for para in doc.paragraphs:
                 if para._element == next_sibling:
-                    # set_table_adjacent_format(para, after=True)
-                    set_paragraph_format(
-                        para,
-                        alignment=WD_ALIGN_PARAGRAPH.JUSTIFY,
-                        space_after=6,
-                        space_before=0,
-                        first_line_indent=Cm(0)
-                    )
+                    para.space_before = Pt(6),
                     break

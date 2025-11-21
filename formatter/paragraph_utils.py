@@ -45,7 +45,7 @@ def process_paragraphs(doc):
             pf = para.paragraph_format
             pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
             pf.space_before = Pt(0)
-            pf.space_after = Pt(12)
+            pf.space_after = Pt(0)
             pf.first_line_indent = Cm(0)
             continue
 
