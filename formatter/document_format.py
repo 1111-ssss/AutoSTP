@@ -1,4 +1,3 @@
-# formatter/document_format.py
 from docx import Document
 from docx.shared import Pt, Cm, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
