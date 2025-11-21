@@ -2,7 +2,7 @@
 from docx import Document
 from docx.shared import Pt, Cm, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from .paragraph_utils import set_paragraph_format, process_paragraphs, format_paragraph
+from .paragraph_utils import set_paragraph_format, process_paragraphs
 from .table_utils import process_tables
 from .image_utils import process_images
 
