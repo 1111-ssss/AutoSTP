@@ -83,7 +83,7 @@ namespace DocXFunc
 
         public void Save(string TargetPath)
         {
-            doc.Save(TargetPath);
+            doc.SaveAs(TargetPath);
         }
 
         private bool IsSpecialParagraph(Paragraph p)
