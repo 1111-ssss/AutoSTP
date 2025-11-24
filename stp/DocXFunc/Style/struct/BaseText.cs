@@ -21,17 +21,33 @@ namespace DocXFunc.Style.@struct
             foreach (var item in doc.Paragraphs)
             {
                 item.LineSpacing = 12f;
-
+                item.StyleName = null;
+                item.ClearBookmarks();
             }
+
+            //paragraph.IndentationBefore = 0;
+            //paragraph.IndentationAfter = 0;
+            //paragraph.IndentationHanging = 0;
+
         }
+
 
 
         public static void BaseTextStyle(Paragraph paragraph)
         {
+            string text = paragraph.Text;
+
+            // 2. Очищаем параграф (удаляем всё содержимое)
+            paragraph.Xml.RemoveAll();
+
+            // 3. Вставляем текст заново — теперь он "чистый", без стиля
+            paragraph.Append(text);
+            //paragraph.Bold(false);
             paragraph.Font("Times New Roman");
             paragraph.FontSize(Constants.MainFontSize);
             paragraph.Alignment = Alignment.both;
             paragraph.IndentationFirstLine = 35.43f;
+
         }
 
 

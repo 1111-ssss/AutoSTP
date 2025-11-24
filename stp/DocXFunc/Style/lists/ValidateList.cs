@@ -12,9 +12,7 @@ namespace DocXFunc.Style.links
     public static class ValidateList
     {
         public static void Validate(Paragraph paragraph)
-        {
-            
-
+        {            
 
             if (paragraph.ListItemType == ListItemType.Bulleted)
             {
@@ -30,19 +28,13 @@ namespace DocXFunc.Style.links
             }
         }
 
-
-        public static void ProcessList(List list)  
+        public static void ProcessList(Paragraph paragraph)  
         {
-             
-            foreach (var item in list.Items)
-            {
-                item.IndentationFirstLine = Constants.FirstLineIndent;
-                item.Font("Times New Roman").FontSize(14);  // Шрифт по стандарту
-                item.LineSpacing = 18f;  // 1.5 интервал
-            }
+            
+            paragraph.IndentationFirstLine = Constants.FirstLineIndent;
+            paragraph.Font("Times New Roman").FontSize(14);  
+            //paragraph.LineSpacing = 18f;  // 1.5 интервал
         }
-
-
 
     }
 }

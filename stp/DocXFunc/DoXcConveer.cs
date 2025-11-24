@@ -11,6 +11,7 @@ using Xceed.Document.NET;
 using Xceed.Words.NET;
 using static System.Net.Mime.MediaTypeNames;
 using core;
+using DocXFunc.Style.links;
 
 namespace DocXFunc
 {
@@ -58,32 +59,68 @@ namespace DocXFunc
         {
             foreach( var item in doc.Paragraphs)
             {
-                if (!IsSpecialParagraph(item))
+                try
                 {
-                    BaseText.BaseTextStyle(item);
-                }
-                
-                if(item.Pictures.Any())
-                {
-                    Pictures.validate(item);
+               
+                    if (!IsSpecialParagraph(item))
+                    {
+                        Console.WriteLine("базовый текст");
+                        BaseText.BaseTextStyle(item);
+                    }
+
+                    if (item.Pictures.Any())
+                    {
+                        Pictures.validate(item);
+                    }
+                    if (item.IsListItem)
+                    {
+                        Console.WriteLine("найден список");
+                        ValidateList.ProcessList(item);
+                    }
+                    if (Regex.IsMatch(item.Text.Trim(), @"^Рисунок \d+\.\d+ –", RegexOptions.IgnoreCase))
+                    {
+                        Console.WriteLine("Рисунок найден");
+                        Pictures.PictureNameStyle(item);
+                    }
+
+                    if (Regex.IsMatch(item.Text.Trim(), @"^Рисунок \d+\.\d+ –", RegexOptions.IgnoreCase))
+                    {
+                        Console.WriteLine("Рисунок найден");
+                        Pictures.PictureNameStyle(item);
+                    }
+
+                    if(Regex.IsMatch(item.Text.Trim(), @"^лабораторная\s+работа\s+№?\s*\d+", RegexOptions.IgnoreCase) ||
+                        Regex.IsMatch(item.Text.Trim(), @"^практическая\s+работа\s+№?\s*\d+", RegexOptions.IgnoreCase)
+                        )
+                    {
+                        item.Alignment = Alignment.center;
+                        item.FontSize(16);
+                        item.Bold(true);
+                    }
+
+
                 }
 
-                if(Regex.IsMatch(item.Text.Trim(), @"^Рисун(ок|.\s*)\s*\d+", RegexOptions.IgnoreCase))
+                catch (OverflowException ex)
                 {
-                    item.Alignment = Alignment.center;
-                    item.IndentationAfter = Constants.MainFontSize;
-                    item.Font("Times New Roman");
-                    item.FontSize(Constants.MainFontSize);
+                    Console.WriteLine($"⚠️ Пропущено изображение: {ex.Message}");
+                    continue; // пропустить этот параграф
                 }
+               
+
                
             }
             TableConveer();
         }
 
 
-        public void Save(string TargetPath)
+        public void SaveAS(string TargetPath)
         {
             doc.SaveAs(TargetPath);
+        }
+        public void Save()
+        {
+            doc.Save();
         }
 
         private bool IsSpecialParagraph(Paragraph p)
@@ -98,16 +135,21 @@ namespace DocXFunc
                 //text.Contains("Полоцк 2023") ||
                 //text.Contains("Рассмотрен и одобрен") ||
                 //text.Contains("Утвержден приказом") ||
+                text.StartsWith("СОДЕРЖАНИЕ") ||
                 text.Contains("Лабораторная работа") ||
                 text.Contains("Практическая работа") ||
                 text.Contains("Вариант работа") ||
+                  text.Contains("ВВЕДЕНИЕ") ||
                 string.IsNullOrWhiteSpace(text))
                 return true;
 
             // 2. Подписи к рисункам и таблицам
-            if (Regex.IsMatch(text, @"^Рисун(ок|.\s*)\s*\d+", RegexOptions.IgnoreCase) ||
-                Regex.IsMatch(text, @"^Табл(ица|.\s*)\s*\d+", RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(text, @"^Рисун(ок|.\s*)\s*\d+", RegexOptions.IgnoreCase) 
+                //Regex.IsMatch(text, @"^Табл(ица|.\s*)\s*\d+", RegexOptions.IgnoreCase
+                )
                 return true;
+
+
 
             // 3. Заголовки разделов (СОДЕРЖАНИЕ, СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ и т.д.)
             if (text == "СОДЕРЖАНИЕ" ||
