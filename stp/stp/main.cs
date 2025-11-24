@@ -8,10 +8,13 @@ using System.Globalization;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using core;
 
+
 class Program
 {
     static void Main(String[] args)
     {
+        Console.WriteLine("New7");
+        
         String documentPath = args[0] ?? "input.docx";
         if (!Path.Exists(documentPath))
         {
@@ -43,5 +46,7 @@ class Program
         {
             logger.Logger.Log("Output file not found, OpenXML Conveer", loggerState: LoggerState.Error);
         }
+        Console.ReadKey();
     }
+    
 }

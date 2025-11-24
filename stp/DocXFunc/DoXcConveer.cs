@@ -1,5 +1,9 @@
-﻿using DocXFunc.Style.Pictures;
+﻿using core;
+using DocXFunc.Style.links;
+using DocXFunc.Style.Pictures;
 using DocXFunc.Style.@struct;
+using DocXFunc.Style.Tabl;
+using logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +14,6 @@ using System.Threading.Tasks;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 using static System.Net.Mime.MediaTypeNames;
-using core;
-using DocXFunc.Style.links;
 
 namespace DocXFunc
 {
@@ -51,17 +53,20 @@ namespace DocXFunc
             foreach(var item in doc.Tables)
             {
                 BaseTable.BaseTableStyle(item);
+                
             }
         }
 
 
         public void AllConveer()
         {
+
+
             foreach( var item in doc.Paragraphs)
             {
                 try
                 {
-               
+
                     if (!IsSpecialParagraph(item))
                     {
                         Console.WriteLine("базовый текст");
@@ -77,19 +82,55 @@ namespace DocXFunc
                         Console.WriteLine("найден список");
                         ValidateList.ProcessList(item);
                     }
-                    if (Regex.IsMatch(item.Text.Trim(), @"^Рисунок \d+\.\d+ –", RegexOptions.IgnoreCase))
+                    else if (Regex.IsMatch(item.Text.Trim(), @"^Рисунок \d+\.\d+ –", RegexOptions.IgnoreCase))
                     {
-                        Console.WriteLine("Рисунок найден");
+                        Console.WriteLine("Подпись рисунка найден");
                         Pictures.PictureNameStyle(item);
                     }
 
-                    if (Regex.IsMatch(item.Text.Trim(), @"^Рисунок \d+\.\d+ –", RegexOptions.IgnoreCase))
+                    //else if (Text.RichText.StartsWith("Тема:") || Text.RichText.StartsWith("Цель:"))
+                    //{
+                    //    Console.WriteLine("Тема / Цель найдена");
+
+                    //    // Сохраняем полный текст
+                    //    string fullText = Text.RichText;
+
+                    //    // Определяем, где заканчивается ключевое слово
+                    //    string keyword = fullText.StartsWith("Тема:") ? "Тема:" : "Цель:";
+
+                    //    s StartsWith() tring restOfText = fullText.Substring(keyword.Length).TrimStart(); // убираем лишние пробелы после ":"
+
+                    //    // Очищаем текущий параграф
+                    //    item.Xml.RemoveAll();
+
+                    //    // Добавляем "Тема:" жирным
+                    //    item.Append(keyword).Bold(true);
+
+                    //    // Добавляем остальной текст обычным
+                    //    if (!string.IsNullOrEmpty(restOfText))
+                    //    {
+                    //        item.Append(" " + restOfText).Bold(false);
+                    //    }
+                    //}
+
+                    else if (item.Text.Trim().ToLower().StartsWith("задания для выполнения работы"))
                     {
-                        Console.WriteLine("Рисунок найден");
-                        Pictures.PictureNameStyle(item);
+                        Console.WriteLine("задания для выполнеия работы найдена");
+                        item.Alignment = Alignment.center;
+                        item.Bold(true);
+                        item.FontSize(16);
                     }
 
-                    if(Regex.IsMatch(item.Text.Trim(), @"^лабораторная\s+работа\s+№?\s*\d+", RegexOptions.IgnoreCase) ||
+
+                    else if (Regex.IsMatch(item.Text.Trim(), @"^Таблица \d+\.\d+ – ", RegexOptions.IgnoreCase))
+                    {
+                        Console.WriteLine("Подпись таблицы найдена");
+                        Tables.TableNameStyle(item);
+                    }
+
+
+
+                    else if (Regex.IsMatch(item.Text.Trim(), @"^лабораторная\s+работа\s+№?\s*\d+", RegexOptions.IgnoreCase) ||
                         Regex.IsMatch(item.Text.Trim(), @"^практическая\s+работа\s+№?\s*\d+", RegexOptions.IgnoreCase)
                         )
                     {
@@ -104,7 +145,11 @@ namespace DocXFunc
                 catch (OverflowException ex)
                 {
                     Console.WriteLine($"⚠️ Пропущено изображение: {ex.Message}");
-                    continue; // пропустить этот параграф
+                    continue; 
+                }
+                catch( Exception ex )
+                {
+                    Logger.Log(ex.Message);
                 }
                
 
