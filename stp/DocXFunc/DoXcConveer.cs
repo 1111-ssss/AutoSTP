@@ -69,7 +69,7 @@ namespace DocXFunc
 
                     if (!IsSpecialParagraph(item))
                     {
-                        Console.WriteLine("базовый текст");
+                        //Console.WriteLine("базовый текст");
                         BaseText.BaseTextStyle(item);
                     }
 
@@ -79,7 +79,7 @@ namespace DocXFunc
                     }
                     if (item.IsListItem)
                     {
-                        Console.WriteLine("найден список");
+                        //Console.WriteLine("найден список");
                         ValidateList.ProcessList(item);
                     }
                     else if (Regex.IsMatch(item.Text.Trim(), @"^Рисунок \d+\.\d+ –", RegexOptions.IgnoreCase))
@@ -93,9 +93,14 @@ namespace DocXFunc
                         BaseText.HeaderOneLevel(item);
                     }
 
+                    else if(item.Text.ToLower().StartsWith("задание"))
+                    {
+                        item.IndentationFirstLine = 0;
+                    }
 
                     else if (Regex.IsMatch(item.Text.Trim(), @"^Таблица \d+\.\d+ – ", RegexOptions.IgnoreCase))
                     {
+                        Console.WriteLine("писка есть");
                         Tables.TableNameStyle(item);
                     }
 
@@ -143,7 +148,7 @@ namespace DocXFunc
         private bool IsSpecialParagraph(Paragraph p)
         {
             string text = p.Text.Trim();
-
+            
             // 1. Титульный лист — пропускаем
             if (
                 //text.Contains("Полоцкий государственный экономический колледж") ||

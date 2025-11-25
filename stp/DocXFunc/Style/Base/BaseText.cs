@@ -22,13 +22,12 @@ namespace DocXFunc.Style.Base
             {
                 item.LineSpacing = 12f;
                 item.StyleId = null;
+                item.StyleName = null;
                 item.ClearBookmarks();
             }
-
             //paragraph.IndentationBefore = 0;
             //paragraph.IndentationAfter = 0;
             //paragraph.IndentationHanging = 0;
-
         }
 
         public static void HeaderOneLevel(Paragraph paragraph)
@@ -42,10 +41,13 @@ namespace DocXFunc.Style.Base
 
         public static void BaseTextStyle(Paragraph paragraph)
         {
-            string text = paragraph.Text;
-            paragraph.Xml.RemoveAll();
-            paragraph.Append(text);
+            paragraph.StyleId = null;
+            paragraph.StyleName = null;
+            //string text = paragraph.Text;
+            //paragraph.Xml.RemoveAll();
+            //paragraph.Append(text);
             //paragraph.Bold(false);
+
             paragraph.Font("Times New Roman");
             paragraph.FontSize(Constants.MainFontSize);
             paragraph.Alignment = Alignment.both;

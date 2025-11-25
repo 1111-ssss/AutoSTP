@@ -1,6 +1,7 @@
 ﻿using core;
 using DocumentFormat.OpenXml.Packaging;
 using logger;
+using openXMlFunc.Style;
 
 namespace openXMlFunc
 {
@@ -15,10 +16,12 @@ namespace openXMlFunc
         {
             try
             {
+                openXMlFunc.EditStyle.EditStyle.CreateBaseStyle(_doc);
+                logger.Logger.Log("OpenXML Conveer: CreateBaseStyle is done");
+                openXMlFunc.Style.TextStyle.ApplyBaseStyle(_doc);
+                logger.Logger.Log("OpenXML Conveer: ApplyBaseStyle is done");
                 openXMlFunc.Margins.Margins.SetupPageMargins(_doc);
                 logger.Logger.Log("OpenXML Conveer: SetupPageMargins is done");
-                openXMlFunc.EditStyle.EditStyle.ApplyBaseStyle(_doc);
-                logger.Logger.Log("OpenXML Conveer: ApplyBaseStyle is done");
                 openXMlFunc.Metatags.Metatags.AddMetatags(_doc, author: "AutoSTP", description: "Document formatted with private docx formatter script");
                 logger.Logger.Log("OpenXML Conveer: AddMetatags is done");
             }
