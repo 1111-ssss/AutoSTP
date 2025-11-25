@@ -21,7 +21,7 @@ namespace DocXFunc.Style.Base
             foreach (var item in doc.Paragraphs)
             {
                 item.LineSpacing = 12f;
-                item.StyleName = null;
+                item.StyleId = null;
                 item.ClearBookmarks();
             }
 
