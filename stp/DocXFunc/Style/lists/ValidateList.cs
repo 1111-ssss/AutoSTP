@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
-using core;
+using core.Const;
 namespace DocXFunc.Style.links
 {
     public static class ValidateList

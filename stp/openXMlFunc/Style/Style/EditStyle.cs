@@ -1,9 +1,9 @@
-using openXMlFunc.Converter;
+using openXMlFunc.Style.Converter;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
+using WP = DocumentFormat.OpenXml.Wordprocessing;
 
-namespace openXMlFunc.EditStyle
+namespace openXMlFunc.Style.EditStyle
 {
     class EditStyle
     {
@@ -16,7 +16,7 @@ namespace openXMlFunc.EditStyle
             if (stylesPart == null)
             {
                 stylesPart = mainPart.AddNewPart<StyleDefinitionsPart>();
-                var newStyles = new Styles();
+                var newStyles = new WP.Styles();
                 CreateOrUpdateNormalStyle(newStyles);
                 stylesPart.Styles = newStyles;
                 return;
@@ -26,40 +26,40 @@ namespace openXMlFunc.EditStyle
             var styles = stylesPart.Styles;
             if (styles == null)
             {
-                styles = new Styles();
+                styles = new WP.Styles();
                 stylesPart.Styles = styles;
             }
 
             // Обновляем стиль в существующем объекте
             CreateOrUpdateNormalStyle(styles);
         }
-        private static void CreateOrUpdateNormalStyle(Styles styles)
+        private static void CreateOrUpdateNormalStyle(WP.Styles styles)
         {
-            var normalStyle = styles.Elements<Style>().FirstOrDefault(s => s.StyleId?.Value == "Normal");
+            var normalStyle = styles.Elements<WP.Style>().FirstOrDefault(s => s.StyleId?.Value == "Normal");
             if (normalStyle == null)
             {
-                normalStyle = new Style { Type = StyleValues.Paragraph, StyleId = "Normal" };
-                normalStyle.Append(new Name { Val = "Normal" });
-                normalStyle.Append(new BasedOn { Val = "Normal" });
+                normalStyle = new WP.Style { Type = WP.StyleValues.Paragraph, StyleId = "Normal" };
+                normalStyle.Append(new WP.Name { Val = "Normal" });
+                normalStyle.Append(new WP.BasedOn { Val = "Normal" });
                 styles.Append(normalStyle);
             }
 
-            normalStyle.StyleRunProperties = new StyleRunProperties(
-                new RunFonts { Ascii = "Times New Roman", HighAnsi = "Times New Roman" },
-                new FontSize { Val = UnitConverter.PtToHalfPoints(14) },
-                new Color { Val = "000000" }
+            normalStyle.StyleRunProperties = new WP.StyleRunProperties(
+                new WP.RunFonts { Ascii = "Times New Roman", HighAnsi = "Times New Roman" },
+                new WP.FontSize { Val = UnitConverter.PtToHalfPoints(14) },
+                new WP.Color { Val = "000000" }
             );
 
-            var paraProps = normalStyle.StyleParagraphProperties ?? new StyleParagraphProperties();
-            paraProps.SpacingBetweenLines = new SpacingBetweenLines
+            var paraProps = normalStyle.StyleParagraphProperties ?? new WP.StyleParagraphProperties();
+            paraProps.SpacingBetweenLines = new WP.SpacingBetweenLines
             {
                 After = "0",
                 Before = "0",
                 Line = "240",
-                LineRule = LineSpacingRuleValues.Auto
+                LineRule = WP.LineSpacingRuleValues.Auto
             };
-            paraProps.Indentation = new Indentation { FirstLine = UnitConverter.CmToTwips(1.25) };
-            paraProps.Justification = new Justification { Val = JustificationValues.Both };
+            paraProps.Indentation = new WP.Indentation { FirstLine = UnitConverter.CmToTwips(1.25) };
+            paraProps.Justification = new WP.Justification { Val = WP.JustificationValues.Both };
 
             normalStyle.StyleParagraphProperties = paraProps;
         }

@@ -2,19 +2,18 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
-namespace openXMlFunc.Margins
+namespace openXMlFunc.Style.Margins
 {
     class Margins
     {
         public static void SetupPageMargins(WordprocessingDocument doc)
         {
             var mainPart = doc.MainDocumentPart ?? doc.AddMainDocumentPart();
-            var body = mainPart.Document.Body;
-            if (body == null)
+            if (mainPart.Document.Body == null)
             {
                 mainPart.Document.Body = new Body();
-                body = mainPart.Document.Body;
             }
+            var body = mainPart.Document.Body;
 
             // Получаем или создаём SectionProperties
             var sectPr = body.Elements<SectionProperties>().LastOrDefault();

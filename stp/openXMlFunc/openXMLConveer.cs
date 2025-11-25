@@ -1,6 +1,7 @@
 ﻿using core;
 using DocumentFormat.OpenXml.Packaging;
 using logger;
+using core.Enums;
 
 namespace openXMlFunc
 {
@@ -15,21 +16,28 @@ namespace openXMlFunc
         {
             try
             {
-                openXMlFunc.Margins.Margins.SetupPageMargins(_doc);
-                logger.Logger.Log("OpenXML Conveer: SetupPageMargins is done");
-                openXMlFunc.EditStyle.EditStyle.ApplyBaseStyle(_doc);
-                logger.Logger.Log("OpenXML Conveer: ApplyBaseStyle is done");
-                openXMlFunc.Metatags.Metatags.AddMetatags(_doc, author: "AutoSTP", description: "Document formatted with private docx formatter script");
-                logger.Logger.Log("OpenXML Conveer: AddMetatags is done");
+                Style.Margins.Margins.SetupPageMargins(_doc);
+                Logger.Log("OpenXML Conveer: SetupPageMargins is done");
+                Style.EditStyle.EditStyle.ApplyBaseStyle(_doc);
+                Logger.Log("OpenXML Conveer: ApplyBaseStyle is done");
+                Style.Metatags.Metatags.AddMetatags(_doc, author: "AutoSTP", description: "Document formatted with private docx formatter script");
+                Logger.Log("OpenXML Conveer: AddMultipleStyles is done");
+                Style.Metatags.StylesCreator.AddMultipleStyles(_doc, new Dictionary<string, string>() {
+                    {"stp1", "1 Automatical"},
+                    {"stp2", "2 STP"},
+                    {"stp3", "3 Formatter"},
+                    {"stp4", "4 Script"},
+                });
+                Logger.Log("OpenXML Conveer: AddMetatags is done");
             }
             catch (Exception ex)
             {
-                logger.Logger.Log($"Форматирование - {ex.ToString()}", loggerState: LoggerState.Error);
+                Logger.Log($"Formatting - {ex.ToString()}", loggerState: LoggerState.Error);
                 return false;
             }
             finally
             {
-                logger.Logger.Log("OpenXML: файл отформатирован.");
+                Logger.Log("OpenXML: file formatted.");
             }
             return true;
         }
@@ -41,12 +49,12 @@ namespace openXMlFunc
             }
             catch (Exception ex)
             {
-                logger.Logger.Log($"Сохранение - {ex.ToString()}", loggerState: LoggerState.Error);
+                Logger.Log($"Saving - {ex.ToString()}", loggerState: LoggerState.Error);
                 return false;
             }
             finally
             {
-                logger.Logger.Log("OpenXML: Файл сохранен.");
+                Logger.Log("OpenXML: file saved.");
             }
             return true;
         }

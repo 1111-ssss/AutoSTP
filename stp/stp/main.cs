@@ -5,18 +5,25 @@ using DocumentFormat.OpenXml.Packaging;
 using DocXFunc;
 using openXMlFunc;
 using System.Globalization;
-using core;
-
+using System.Diagnostics;
+using core.Model;
+using core.Enums;
+using stp.Utils.FileUtils;
+using stp.Utils.ArgParser;
 
 class Program
 {
     static void Main(String[] args)
     {
-        core.AppOptions.AppOptions options = core.ArgParser.ArgParser.Parse(args);
+        AppOptions options = ArgParser.Parse(args);
         if (!Path.Exists(options.InputFile))
         {
-            Logger.Log("No doc found");
+            Logger.Log("No doc found", LoggerState.Error);
             return;
+        }
+        if (IsFileLocked.IsLocked(options.InputFile))
+        {
+            Logger.Log("File is locked. Close Word first.", LoggerState.Error);
         }
 
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
@@ -25,12 +32,20 @@ class Program
         Logger.Log("DoxC Conveer starting...");
         DoXcConveer doXcConveer = new DoXcConveer(options.InputFile);
         doXcConveer.AllConveer();
-        doXcConveer.SaveAS(options.OutputPath);
+        if (options.Save)
+        {
+            options.OutputPath = options.InputFile;
+            doXcConveer.Save();
+        }
+        else
+        {
+            doXcConveer.SaveAS(options.OutputPath);
+        }
         Logger.Log("DoxC Conveer complete.");
 
         if (Path.Exists(options.OutputPath))
         {
-            Logger.Log("Output file found, OpenXML Conveer starting...");
+            Logger.Log("File found, OpenXML Conveer starting...");
             using (var doc = WordprocessingDocument.Open(options.OutputPath, isEditable: true))
             {
                 OpenXMLConveer xmlConveer = new OpenXMLConveer(doc);
@@ -43,7 +58,32 @@ class Program
         {
             Logger.Log("Output file not found, OpenXML Conveer", loggerState: LoggerState.Error);
         }
+        Console.WriteLine(options.Rename);
+        if (options.Rename != null)
+        {
+            options.OutputPath = FileRename.Rename(options.OutputPath, options.Rename!);
+            bool renamed = true;
+            if (!renamed)
+            {
+                Logger.Log("Cannot rename file", LoggerState.Error);
+            }
+        }
+        if (options.Open)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = options.OutputPath,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"Failed to open file - {ex.ToString()}", LoggerState.Error);
+            }
+        }
         Console.ReadKey();
     }
-    
+
 }

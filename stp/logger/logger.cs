@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Threading.Tasks.Sources;
-using core;
+using core.Enums;
 
 namespace logger
 {

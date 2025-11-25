@@ -1,4 +1,4 @@
-namespace openXMlFunc.Converter
+namespace openXMlFunc.Style.Converter
 {
     /// <summary>
     /// Класс для конвертации значений

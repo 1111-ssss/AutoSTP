@@ -1,6 +1,6 @@
 using DocumentFormat.OpenXml.Packaging;
 
-namespace openXMlFunc.Metatags
+namespace openXMlFunc.Style.Metatags
 {
     class Metatags
     {

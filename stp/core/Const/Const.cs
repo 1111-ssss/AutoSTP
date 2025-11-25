@@ -1,11 +1,5 @@
-﻿namespace core
+namespace core.Const
 {
-    public enum LoggerState
-    {
-        Info = 0,
-        Warn = 1,
-        Error = 2,
-    }
     public static class Constants
     {
 

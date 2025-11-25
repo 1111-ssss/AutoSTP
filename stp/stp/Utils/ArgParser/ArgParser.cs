@@ -1,19 +1,24 @@
-namespace core.ArgParser
+using core.Model;
+using core.Enums;
+using logger;
+
+namespace stp.Utils.ArgParser
 {
     public class ArgParser
     {
-        public static core.AppOptions.AppOptions Parse(String[] args)
+        public static AppOptions Parse(String[] args)
         {
-            var options = new core.AppOptions.AppOptions();
+            var options = new AppOptions();
 
             var handlers = new Dictionary<string, Action<string>>
             {
                 ["--input"] = val => options.InputFile = val,
                 ["--output"] = val => options.OutputPath = val,
                 ["--author"] = val => options.Author = val,
+                ["--rename"] = val => options.Rename = val,
                 ["--filetype"] = val =>
                 {
-                    if (Enum.TryParse<core.AppOptions.FileType>(val, true, out var type))
+                    if (Enum.TryParse<FileType>(val, true, out var type))
                         options.FileType = type;
                     else
                         throw new ArgumentException($"Неподдерживаемый тип документа: {val}. Допустимые: None, LabWork, PracticalWork, GraduateWork");
@@ -38,8 +43,16 @@ namespace core.ArgParser
                         case "--verbose":
                             options.Verbose = true;
                             break;
+                        case "--open":
+                            options.Open = true;
+                            break;
+                        case "--save":
+                            options.Save = true;
+                            break;
                         default:
-                            throw new ArgumentException($"Неизвестный аргумент: {arg}");
+                            Logger.Log($"Неизвестный аргумент: {arg}", LoggerState.Warn);
+                            break;
+                            // throw new ArgumentException($"Неизвестный аргумент: {arg}");
                     }
                 }
             }

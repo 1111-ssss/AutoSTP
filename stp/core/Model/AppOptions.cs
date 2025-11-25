@@ -1,12 +1,7 @@
-namespace core.AppOptions
+using core.Enums;
+
+namespace core.Model
 {
-    public enum FileType
-    {
-        None = 0,
-        LabWork = 1,
-        PracticalWork = 2,
-        GraduateWork = 3,
-    }
     public class AppOptions
     {
         public String InputFile = "input.docx";
@@ -14,5 +9,8 @@ namespace core.AppOptions
         public bool Verbose = false;
         public String? Author;
         public FileType FileType = FileType.None;
+        public bool Open = false;
+        public bool Save = false;
+        public String? Rename;
     }
 }
