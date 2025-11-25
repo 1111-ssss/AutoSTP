@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 
-namespace DocXFunc.Style.@struct
+namespace DocXFunc.Style.Base
 {
     public static class BaseText
     {
@@ -31,19 +31,25 @@ namespace DocXFunc.Style.@struct
 
         }
 
+        public static void HeaderOneLevel(Paragraph paragraph)
+        {
+            paragraph.IndentationFirstLine = 0;
+            paragraph.Alignment = Alignment.center;
+            paragraph.Bold(true);
+            paragraph.FontSize(16);
+        }
 
 
         public static void BaseTextStyle(Paragraph paragraph)
         {
             string text = paragraph.Text;
-
             paragraph.Xml.RemoveAll();
             paragraph.Append(text);
             //paragraph.Bold(false);
             paragraph.Font("Times New Roman");
             paragraph.FontSize(Constants.MainFontSize);
             paragraph.Alignment = Alignment.both;
-            paragraph.IndentationFirstLine = 35.43f;
+            paragraph.IndentationFirstLine = Constants.FirstLineIndent;
 
         }
 

@@ -10,7 +10,7 @@ using Xceed.Document.NET;
 using Xceed.Words.NET;
 using DocXFunc.ex;
 
-namespace DocXFunc.Style.@struct
+namespace DocXFunc.Style.Tabl
 {
     public static class BaseTable
     {
