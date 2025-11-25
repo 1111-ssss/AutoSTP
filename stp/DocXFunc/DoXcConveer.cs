@@ -93,27 +93,20 @@ namespace DocXFunc
                         BaseText.HeaderOneLevel(item);
                     }
 
-                    else if(item.Text.ToLower().StartsWith("задание"))
-                    {
-                        item.IndentationFirstLine = 0;
-                    }
 
                     else if (Regex.IsMatch(item.Text.Trim(), @"^Таблица \d+\.\d+ – ", RegexOptions.IgnoreCase))
                     {
-                        Console.WriteLine("писка есть");
                         Tables.TableNameStyle(item);
                     }
 
-
+                    
 
                     else if (Regex.IsMatch(item.Text.Trim(), @"^лабораторная\s+работа\s+№?\s*\d+", RegexOptions.IgnoreCase) ||
                         Regex.IsMatch(item.Text.Trim(), @"^практическая\s+работа\s+№?\s*\d+", RegexOptions.IgnoreCase)
                         )
                     {
-                        item.IndentationFirstLine = 0;
-                        item.Alignment = Alignment.center;
-                        item.FontSize(16);
-                        item.Bold(true);
+                        item.CapsStyle(CapsStyle.caps);
+                        BaseText.HeaderOneLevel(item);
                     }
 
 
