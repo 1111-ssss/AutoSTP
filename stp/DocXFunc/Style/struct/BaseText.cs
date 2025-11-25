@@ -14,9 +14,9 @@ namespace DocXFunc.Style.@struct
 
         public static void allTextStyle(DocX doc)
         {
-            doc.MarginLeft = 0;    // 0 см слева
-            doc.MarginRight = 0;    // 0 см справа
-            doc.MarginTop = 0;    // 0 см сверху (или 720f = 2.54 см, если нужно)
+            doc.MarginLeft = 0;    
+            doc.MarginRight = 0;   
+            doc.MarginTop = 0;    
             doc.MarginBottom = 0;
             foreach (var item in doc.Paragraphs)
             {
@@ -37,10 +37,7 @@ namespace DocXFunc.Style.@struct
         {
             string text = paragraph.Text;
 
-            // 2. Очищаем параграф (удаляем всё содержимое)
             paragraph.Xml.RemoveAll();
-
-            // 3. Вставляем текст заново — теперь он "чистый", без стиля
             paragraph.Append(text);
             //paragraph.Bold(false);
             paragraph.Font("Times New Roman");

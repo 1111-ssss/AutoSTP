@@ -17,6 +17,7 @@ namespace DocXFunc.Style.@struct
 
         public static void BaseTableStyle(Table table)
         {
+            
             var fontSize = Constants.TableFontSize;
             table.Alignment = Alignment.left;
             if(table.RowCount < 20)
@@ -26,6 +27,8 @@ namespace DocXFunc.Style.@struct
             foreach(var item in table.Paragraphs)
             {
                 item.FontSize(fontSize);
+                item.IndentationFirstLine = 0;
+                item.Alignment = Alignment.left;    
             }
             ValidateTable(table, fontSize);
         }
@@ -33,6 +36,11 @@ namespace DocXFunc.Style.@struct
 
         private static void ValidateTable(Table table, float fontSize)
         {
+            foreach(var item in table.Rows[0].Paragraphs)
+            {
+                item.Alignment = Alignment.center;
+            }
+
             foreach (var row in table.Rows)
             {
                 foreach (var cell in row.Cells)
@@ -43,7 +51,7 @@ namespace DocXFunc.Style.@struct
                             p.FontSize(fontSize);
             
                     }
-                    SetCellVerticalAlignmentTop(cell);
+                    //SetCellVerticalAlignmentTop(cell);
                 }
                 
             }

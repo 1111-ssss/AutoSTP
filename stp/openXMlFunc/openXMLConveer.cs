@@ -7,18 +7,20 @@ namespace openXMlFunc
     public class OpenXMLConveer
     {
         private WordprocessingDocument _doc;
-        private String _stylesString;
-        public OpenXMLConveer(WordprocessingDocument doc, String stylesString = "Auto STP Script test by НЕГурский and НЕКасевич")
+        public OpenXMLConveer(WordprocessingDocument doc)
         {
             _doc = doc;
-            _stylesString = stylesString;
         }
         public bool AllConveer()
         {
             try
             {
                 openXMlFunc.Margins.Margins.SetupPageMargins(_doc);
+                logger.Logger.Log("OpenXML Conveer: SetupPageMargins is done");
                 openXMlFunc.EditStyle.EditStyle.ApplyBaseStyle(_doc);
+                logger.Logger.Log("OpenXML Conveer: ApplyBaseStyle is done");
+                openXMlFunc.Metatags.Metatags.AddMetatags(_doc, author: "AutoSTP", description: "Document formatted with private docx formatter script");
+                logger.Logger.Log("OpenXML Conveer: AddMetatags is done");
             }
             catch (Exception ex)
             {

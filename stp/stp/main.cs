@@ -7,6 +7,7 @@ using openXMlFunc;
 using System.Globalization;
 using core;
 
+
 class Program
 {
     static void Main(String[] args)
@@ -42,5 +43,7 @@ class Program
         {
             Logger.Log("Output file not found, OpenXML Conveer", loggerState: LoggerState.Error);
         }
+        Console.ReadKey();
     }
+    
 }

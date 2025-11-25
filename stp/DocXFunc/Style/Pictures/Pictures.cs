@@ -21,7 +21,7 @@ namespace DocXFunc.Style.Pictures
         public static void IndeNull(Paragraph paragraph)
         {
             paragraph.IndentationBefore = 0;
-            paragraph.IndentationAfter = 0;
+            //paragraph.IndentationAfter = 0;
             paragraph.IndentationHanging = 0;
         }
 
@@ -29,7 +29,8 @@ namespace DocXFunc.Style.Pictures
         public static void PictureNameStyle(Paragraph paragraph)
         {
             paragraph.Alignment = Alignment.center;
-            paragraph.IndentationAfter = Constants.MainFontSize;
+            paragraph.IndentationFirstLine = 0;
+            paragraph.SpacingAfter(6);
             paragraph.Font("Times New Roman");
             paragraph.FontSize(Constants.MainFontSize);
             IndeNull(paragraph);
