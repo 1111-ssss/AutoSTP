@@ -3,11 +3,11 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using WP = DocumentFormat.OpenXml.Wordprocessing;
 
-namespace openXMlFunc.Style.EditStyle
+namespace openXMlFunc.Style.Style
 {
     class EditStyle
     {
-        public static void ApplyBaseStyle(WordprocessingDocument doc)
+        public static void CreateBaseStyle(WordprocessingDocument doc)
         {
             var mainPart = doc.MainDocumentPart;
             if (mainPart == null) return;

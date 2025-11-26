@@ -1,6 +1,6 @@
 using core.Model;
 using core.Enums;
-using logger;
+using logger.Logger;
 
 namespace stp.Utils.ArgParser
 {
@@ -49,8 +49,11 @@ namespace stp.Utils.ArgParser
                         case "--save":
                             options.Save = true;
                             break;
+                        case "--log":
+                            options.LoggerEnabled = true;
+                            break;
                         default:
-                            Logger.Log($"Неизвестный аргумент: {arg}", LoggerState.Warn);
+                            Logger.Detailed($"Неизвестный аргумент: {arg}", LoggerState.Warn);
                             break;
                             // throw new ArgumentException($"Неизвестный аргумент: {arg}");
                     }

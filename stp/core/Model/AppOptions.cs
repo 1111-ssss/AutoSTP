@@ -12,5 +12,6 @@ namespace core.Model
         public bool Open = false;
         public bool Save = false;
         public String? Rename;
+        public bool LoggerEnabled = false;
     }
 }

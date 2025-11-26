@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Packaging;
 using logger;
 using core.Enums;
+using openXMlFunc.Style;
 
 namespace openXMlFunc
 {
@@ -18,7 +19,9 @@ namespace openXMlFunc
             {
                 Style.Margins.Margins.SetupPageMargins(_doc);
                 Logger.Log("OpenXML Conveer: SetupPageMargins is done");
-                Style.EditStyle.EditStyle.ApplyBaseStyle(_doc);
+                Style.Style.EditStyle.CreateBaseStyle(_doc);
+                logger.Logger.Log("OpenXML Conveer: CreateBaseStyle is done");
+                Style.Style.TextStyle.ApplyBaseStyle(_doc);
                 Logger.Log("OpenXML Conveer: ApplyBaseStyle is done");
                 Style.Metatags.Metatags.AddMetatags(_doc, author: "AutoSTP", description: "Document formatted with private docx formatter script");
                 Logger.Log("OpenXML Conveer: AddMultipleStyles is done");
@@ -32,7 +35,7 @@ namespace openXMlFunc
             }
             catch (Exception ex)
             {
-                Logger.Log($"Formatting - {ex.ToString()}", loggerState: LoggerState.Error);
+                Logger.Log($"Formatting - {ex.ToString()}", LoggerState.Error);
                 return false;
             }
             finally
@@ -49,7 +52,7 @@ namespace openXMlFunc
             }
             catch (Exception ex)
             {
-                Logger.Log($"Saving - {ex.ToString()}", loggerState: LoggerState.Error);
+                Logger.Log($"Saving - {ex.ToString()}", LoggerState.Error);
                 return false;
             }
             finally

@@ -2,8 +2,11 @@ namespace core.Enums
 {
     public enum LoggerState
     {
-        Info = 0,
-        Warn = 1,
-        Error = 2,
+        None = 0,
+        Debug = 1,
+        Info = 2,
+        Warn = 3,
+        Error = 4,
+        Fatal = 5,
     }
 }

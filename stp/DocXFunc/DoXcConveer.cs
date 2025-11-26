@@ -1,9 +1,9 @@
 ﻿using core;
+using DocXFunc.Style.Base;
 using DocXFunc.Style.links;
 using DocXFunc.Style.Pictures;
-using DocXFunc.Style.@struct;
 using DocXFunc.Style.Tabl;
-using logger;
+using logger.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +69,7 @@ namespace DocXFunc
 
                     if (!IsSpecialParagraph(item))
                     {
-                        Console.WriteLine("базовый текст");
+                        //Console.WriteLine("базовый текст");
                         BaseText.BaseTextStyle(item);
                     }
 
@@ -79,7 +79,7 @@ namespace DocXFunc
                     }
                     if (item.IsListItem)
                     {
-                        Console.WriteLine("найден список");
+                        //Console.WriteLine("найден список");
                         ValidateList.ProcessList(item);
                     }
                     else if (Regex.IsMatch(item.Text.Trim(), @"^Рисунок \d+\.\d+ –", RegexOptions.IgnoreCase))
@@ -88,55 +88,25 @@ namespace DocXFunc
                         Pictures.PictureNameStyle(item);
                     }
 
-                    //else if (Text.RichText.StartsWith("Тема:") || Text.RichText.StartsWith("Цель:"))
-                    //{
-                    //    Console.WriteLine("Тема / Цель найдена");
-
-                    //    // Сохраняем полный текст
-                    //    string fullText = Text.RichText;
-
-                    //    // Определяем, где заканчивается ключевое слово
-                    //    string keyword = fullText.StartsWith("Тема:") ? "Тема:" : "Цель:";
-
-                    //    s StartsWith() tring restOfText = fullText.Substring(keyword.Length).TrimStart(); // убираем лишние пробелы после ":"
-
-                    //    // Очищаем текущий параграф
-                    //    item.Xml.RemoveAll();
-
-                    //    // Добавляем "Тема:" жирным
-                    //    item.Append(keyword).Bold(true);
-
-                    //    // Добавляем остальной текст обычным
-                    //    if (!string.IsNullOrEmpty(restOfText))
-                    //    {
-                    //        item.Append(" " + restOfText).Bold(false);
-                    //    }
-                    //}
-
                     else if (item.Text.Trim().ToLower().StartsWith("задания для выполнения работы"))
                     {
-                        Console.WriteLine("задания для выполнеия работы найдена");
-                        item.Alignment = Alignment.center;
-                        item.Bold(true);
-                        item.FontSize(16);
+                        BaseText.HeaderOneLevel(item);
                     }
 
 
                     else if (Regex.IsMatch(item.Text.Trim(), @"^Таблица \d+\.\d+ – ", RegexOptions.IgnoreCase))
                     {
-                        Console.WriteLine("Подпись таблицы найдена");
                         Tables.TableNameStyle(item);
                     }
 
-
+                    
 
                     else if (Regex.IsMatch(item.Text.Trim(), @"^лабораторная\s+работа\s+№?\s*\d+", RegexOptions.IgnoreCase) ||
                         Regex.IsMatch(item.Text.Trim(), @"^практическая\s+работа\s+№?\s*\d+", RegexOptions.IgnoreCase)
                         )
                     {
-                        item.Alignment = Alignment.center;
-                        item.FontSize(16);
-                        item.Bold(true);
+                        item.CapsStyle(CapsStyle.caps);
+                        BaseText.HeaderOneLevel(item);
                     }
 
 
@@ -144,7 +114,7 @@ namespace DocXFunc
 
                 catch (OverflowException ex)
                 {
-                    Console.WriteLine($"⚠️ Пропущено изображение: {ex.Message}");
+                    Console.WriteLine($"Пропущено изображение: {ex.Message}");
                     continue; 
                 }
                 catch( Exception ex )
@@ -171,7 +141,7 @@ namespace DocXFunc
         private bool IsSpecialParagraph(Paragraph p)
         {
             string text = p.Text.Trim();
-
+            
             // 1. Титульный лист — пропускаем
             if (
                 //text.Contains("Полоцкий государственный экономический колледж") ||
@@ -189,25 +159,24 @@ namespace DocXFunc
                 return true;
 
             // 2. Подписи к рисункам и таблицам
-            if (Regex.IsMatch(text, @"^Рисун(ок|.\s*)\s*\d+", RegexOptions.IgnoreCase) 
-                //Regex.IsMatch(text, @"^Табл(ица|.\s*)\s*\d+", RegexOptions.IgnoreCase
-                )
+            if (Regex.IsMatch(text, @"^Рисун(ок|.\s*)\s*\d+", RegexOptions.IgnoreCase) || 
+                Regex.IsMatch(text, @"^Табл(ица|.\s*)\s*\d+", RegexOptions.IgnoreCase
+                ))
                 return true;
 
 
 
-            // 3. Заголовки разделов (СОДЕРЖАНИЕ, СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ и т.д.)
+            
             if (text == "СОДЕРЖАНИЕ" ||
                 text == "СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ" ||
                 text.Contains("ПРИЛОЖЕНИЕ") ||
                 Regex.IsMatch(text, @"^\d+\s+[А-ЯA-Z]"))
                 return true;
 
-            // 4. Параграфы с картинками (логотип, иллюстрации)
-            if (p.Pictures.Any() || p.ParentContainer is Table == false && p.Pictures.Count > 0)
+            
+            if (p.Pictures.Any() == false && p.Pictures.Count > 0)
                 return true;
 
-            // 5. Пустые строки и разрывы страниц
             if (string.IsNullOrWhiteSpace(text) || text.Length < 3)
                 return true;
 

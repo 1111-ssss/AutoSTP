@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using System.IO;
-using logger;
+using logger.Logger;
 using DocumentFormat.OpenXml.Packaging;
 using DocXFunc;
 using openXMlFunc;
@@ -56,7 +56,7 @@ class Program
         }
         else
         {
-            Logger.Log("Output file not found, OpenXML Conveer", loggerState: LoggerState.Error);
+            Logger.Log("Output file not found, OpenXML Conveer", LoggerState.Error);
         }
         Console.WriteLine(options.Rename);
         if (options.Rename != null)
