@@ -20,7 +20,7 @@ namespace openXMlFunc
         {
             try
             {
-                openXMlFunc.EditStyle.EditStyle.CreateBaseStyle(_doc);
+                //openXMlFunc.EditStyle.EditStyle.CreateBaseStyle(_doc);
                 logger.Logger.Log("OpenXML Conveer: CreateBaseStyle is done");
                 openXMlFunc.Style.TextStyle.ApplyBaseStyle(_doc);
                 logger.Logger.Log("OpenXML Conveer: ApplyBaseStyle is done");

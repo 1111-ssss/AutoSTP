@@ -86,6 +86,7 @@ namespace DocXFunc
                     {
                         Console.WriteLine("Подпись рисунка найден");
                         Pictures.PictureNameStyle(item);
+                        continue;
                     }
 
                     else if (item.Text.Trim().ToLower().StartsWith("задания для выполнения работы"))
@@ -159,8 +160,8 @@ namespace DocXFunc
                 return true;
 
             // 2. Подписи к рисункам и таблицам
-            if (Regex.IsMatch(text, @"^Рисун(ок|.\s*)\s*\d+", RegexOptions.IgnoreCase) || 
-                Regex.IsMatch(text, @"^Табл(ица|.\s*)\s*\d+", RegexOptions.IgnoreCase
+            if (Regex.IsMatch(text, @"^Рисун(ок|.\s*)\s*\d+", RegexOptions.IgnoreCase) ||
+                (Regex.IsMatch(text.Trim(), @"^Рисунок \d+\.\d+ –", RegexOptions.IgnoreCase)
                 ))
                 return true;
 

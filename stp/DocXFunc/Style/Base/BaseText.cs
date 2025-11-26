@@ -47,7 +47,8 @@ namespace DocXFunc.Style.Base
             //paragraph.Xml.RemoveAll();
             //paragraph.Append(text);
             //paragraph.Bold(false);
-
+            paragraph.SpacingAfter(0);
+            paragraph.SpacingBefore(0);
             paragraph.Font("Times New Roman");
             paragraph.FontSize(Constants.MainFontSize);
             paragraph.Alignment = Alignment.both;
