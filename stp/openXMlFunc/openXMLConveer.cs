@@ -1,9 +1,8 @@
 ﻿using core;
 using DocumentFormat.OpenXml.Packaging;
-using logger;
+using logger.Logger;
 using core.Enums;
 using openXMlFunc.Style;
-
 namespace openXMlFunc
 {
     public class OpenXMLConveer
@@ -13,16 +12,22 @@ namespace openXMlFunc
         {
             _doc = doc;
         }
+
+
+
+
         public bool AllConveer()
         {
             try
             {
                 Style.Margins.Margins.SetupPageMargins(_doc);
                 Logger.Log("OpenXML Conveer: SetupPageMargins is done");
-                Style.Style.EditStyle.CreateBaseStyle(_doc);
-                logger.Logger.Log("OpenXML Conveer: CreateBaseStyle is done");
+                // Style.Style.EditStyle.CreateBaseStyle(_doc);
+                // logger.Logger.Log("OpenXML Conveer: CreateBaseStyle is done");
                 Style.Style.TextStyle.ApplyBaseStyle(_doc);
                 Logger.Log("OpenXML Conveer: ApplyBaseStyle is done");
+                Style.Names.TableNames.TableName(_doc, 1);
+                Logger.Log("OpenXML Conveer: TableNames is done");
                 Style.Metatags.Metatags.AddMetatags(_doc, author: "AutoSTP", description: "Document formatted with private docx formatter script");
                 Logger.Log("OpenXML Conveer: AddMultipleStyles is done");
                 Style.Metatags.StylesCreator.AddMultipleStyles(_doc, new Dictionary<string, string>() {

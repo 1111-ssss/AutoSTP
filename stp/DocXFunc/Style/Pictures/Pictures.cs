@@ -28,8 +28,8 @@ namespace DocXFunc.Style.Pictures
 
         public static void PictureNameStyle(Paragraph paragraph)
         {
-            paragraph.Alignment = Alignment.center;
             paragraph.IndentationFirstLine = 0;
+            paragraph.Alignment = Alignment.center;
             paragraph.SpacingAfter(6);
             paragraph.Font("Times New Roman");
             paragraph.FontSize(Constants.MainFontSize);

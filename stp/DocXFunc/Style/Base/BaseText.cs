@@ -24,10 +24,14 @@ namespace DocXFunc.Style.Base
                 item.StyleId = null;
                 item.StyleName = null;
                 item.ClearBookmarks();
+                
+                item.IndentationBefore = 0;
+                item.IndentationAfter = 0;
+                item.IndentationHanging = 0;
             }
-            //paragraph.IndentationBefore = 0;
-            //paragraph.IndentationAfter = 0;
-            //paragraph.IndentationHanging = 0;
+            // paragraph.IndentationBefore = 0;
+            // paragraph.IndentationAfter = 0;
+            // paragraph.IndentationHanging = 0;
         }
 
         public static void HeaderOneLevel(Paragraph paragraph)
@@ -47,7 +51,8 @@ namespace DocXFunc.Style.Base
             //paragraph.Xml.RemoveAll();
             //paragraph.Append(text);
             //paragraph.Bold(false);
-
+            paragraph.SpacingAfter(0);
+            paragraph.SpacingBefore(0);
             paragraph.Font("Times New Roman");
             paragraph.FontSize(Constants.MainFontSize);
             paragraph.Alignment = Alignment.both;
