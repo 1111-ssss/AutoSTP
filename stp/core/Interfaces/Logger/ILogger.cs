@@ -19,6 +19,6 @@ namespace core.Interface
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0
         );
-        void MapResult(TResult result);
+        void MapResult(TResult result); //вынести нужно, неужели в каждой реализации логера должен быть отдельный маппер?
     }
 }
