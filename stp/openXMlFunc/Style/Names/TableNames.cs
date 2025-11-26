@@ -55,6 +55,17 @@ namespace openXMlFunc.Style.Names
                         
                     };
 
+                    //pr  new SpacingBetweenLines();
+                    props.SpacingBetweenLines = new SpacingBetweenLines()
+                    {
+                        Before = 120.ToString(),
+                        After = 0.ToString(),
+                        Line = "240",
+                        LineRule = LineSpacingRuleValues.Auto
+                    };
+                    
+
+
                     paragraph.Append(props);
 
                     var run = new Run();
@@ -78,7 +89,7 @@ namespace openXMlFunc.Style.Names
 
 
                 }
-                Logger.Debug("подпись таблицы не найдена");
+                
 
 
 

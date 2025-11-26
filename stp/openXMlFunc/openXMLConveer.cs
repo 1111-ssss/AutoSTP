@@ -1,29 +1,32 @@
 ﻿using core;
+using core.Enums;
 using DocumentFormat.OpenXml.Packaging;
 using logger.Logger;
-using core.Enums;
 using openXMlFunc.Style;
+using openXMlFunc.Style.Names;
 namespace openXMlFunc
 {
     public class OpenXMLConveer
     {
         private WordprocessingDocument _doc;
-        public OpenXMLConveer(WordprocessingDocument doc)
+        public OpenXMLConveer(
+            WordprocessingDocument doc
+            
+            )
         {
             _doc = doc;
         }
 
-
-
-
         public bool AllConveer()
         {
+            PicturesNames picturesNames = new PicturesNames(_doc, 1);
             try
             {
                 Style.Margins.Margins.SetupPageMargins(_doc);
                 Logger.Log("OpenXML Conveer: SetupPageMargins is done");
                 // Style.Style.EditStyle.CreateBaseStyle(_doc);
                 // logger.Logger.Log("OpenXML Conveer: CreateBaseStyle is done");
+                picturesNames.AddPictureNames();
                 Style.Style.TextStyle.ApplyBaseStyle(_doc);
                 Logger.Log("OpenXML Conveer: ApplyBaseStyle is done");
                 Style.Names.TableNames.TableName(_doc, 1);
