@@ -2,7 +2,7 @@
 using DocumentFormat.OpenXml.Packaging;
 using logger;
 using openXMlFunc.Style;
-
+using openXMlFunc.Style.Names;
 namespace openXMlFunc
 {
     public class OpenXMLConveer
@@ -12,6 +12,10 @@ namespace openXMlFunc
         {
             _doc = doc;
         }
+
+
+
+
         public bool AllConveer()
         {
             try
@@ -22,6 +26,7 @@ namespace openXMlFunc
                 logger.Logger.Log("OpenXML Conveer: ApplyBaseStyle is done");
                 openXMlFunc.Margins.Margins.SetupPageMargins(_doc);
                 logger.Logger.Log("OpenXML Conveer: SetupPageMargins is done");
+                TableNames.TableName(_doc, 1);
                 openXMlFunc.Metatags.Metatags.AddMetatags(_doc, author: "AutoSTP", description: "Document formatted with private docx formatter script");
                 logger.Logger.Log("OpenXML Conveer: AddMetatags is done");
             }
