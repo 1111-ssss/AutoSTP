@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 using core.Const;
+using logger.Logger;
 namespace DocXFunc.Style.links
 {
     public static class ValidateList
@@ -16,15 +17,15 @@ namespace DocXFunc.Style.links
 
             if (paragraph.ListItemType == ListItemType.Bulleted)
             {
-                Console.WriteLine("Маркированный список");
+                Logger.Debug("Маркированный список");
             }
             else if (paragraph.ListItemType == ListItemType.Numbered)
             {
-                Console.WriteLine("Нумерованный список");
+                Logger.Debug("Нумерованный список");
             }
             else
             {
-               Console.WriteLine("список неподоходящего типа");
+               Logger.Debug("список неподоходящего типа");
             }
         }
 

@@ -18,18 +18,23 @@ class Program
         AppOptions options = ArgParser.Parse(args);
         if (!Path.Exists(options.InputFile))
         {
-            Logger.Log("No doc found", LoggerState.Error);
+            Logger.Fatal("No doc found");
             return;
         }
+
         if (IsFileLocked.IsLocked(options.InputFile))
         {
-            Logger.Log("File is locked. Close Word first.", LoggerState.Error);
+            Logger.Fatal("Input file is locked. Close Word first.");
+        }
+        if (Path.Exists(options.OutputPath) && IsFileLocked.IsLocked(options.OutputPath))
+        {
+            Logger.Fatal("Output file is locked. Close Word first.");
         }
 
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 
-        Logger.Log("DoxC Conveer starting...");
+        Logger.Info("DoxC Conveer starting...");
         DoXcConveer doXcConveer = new DoXcConveer(options.InputFile);
         doXcConveer.AllConveer();
         if (options.Save)
@@ -41,33 +46,34 @@ class Program
         {
             doXcConveer.SaveAS(options.OutputPath);
         }
-        Logger.Log("DoxC Conveer complete.");
+        Logger.Info("DoxC Conveer complete.");
 
         if (Path.Exists(options.OutputPath))
         {
-            Logger.Log("File found, OpenXML Conveer starting...");
+            Logger.Info("File found, OpenXML Conveer starting...");
             using (var doc = WordprocessingDocument.Open(options.OutputPath, isEditable: true))
             {
                 OpenXMLConveer xmlConveer = new OpenXMLConveer(doc);
                 xmlConveer.AllConveer();
                 xmlConveer.Save();
             }
-            Logger.Log("OpenXML Conveer complete.");
+            Logger.Info("OpenXML Conveer complete.");
         }
         else
         {
-            Logger.Log("Output file not found, OpenXML Conveer", LoggerState.Error);
+            Logger.Info("Output file not found, OpenXML Conveer");
         }
-        Console.WriteLine(options.Rename);
+
         if (options.Rename != null)
         {
             options.OutputPath = FileRename.Rename(options.OutputPath, options.Rename!);
             bool renamed = true;
             if (!renamed)
             {
-                Logger.Log("Cannot rename file", LoggerState.Error);
+                Logger.Error("Cannot rename file");
             }
         }
+
         if (options.Open)
         {
             try
@@ -80,10 +86,8 @@ class Program
             }
             catch (Exception ex)
             {
-                Logger.Log($"Failed to open file - {ex.ToString()}", LoggerState.Error);
+                Logger.Warn($"Failed to open file - {ex.ToString()}");
             }
         }
-        Console.ReadKey();
     }
-
 }
