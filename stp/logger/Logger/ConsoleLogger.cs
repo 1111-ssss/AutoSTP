@@ -1,5 +1,5 @@
 using System.Runtime.CompilerServices;
-using core.Interface;
+using core.Interfaces;
 using core.Enums;
 using core.Model;
 

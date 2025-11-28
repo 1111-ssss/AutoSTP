@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using core.Enums;
 using core.Model;
-using core.Interface;
+using core.Interfaces;
 
 namespace logger.Logger {
     public static class Logger
