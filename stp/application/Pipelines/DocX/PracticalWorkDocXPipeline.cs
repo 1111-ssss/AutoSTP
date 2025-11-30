@@ -8,6 +8,7 @@ using infrastructure.Utils.UtilsDocX.Validate;
 using logger.Logger;
 using core.Interfaces;
 using System.Text.RegularExpressions;
+using core.Model;
 
 
 namespace application.Pipelines.DocX
@@ -15,7 +16,7 @@ namespace application.Pipelines.DocX
     public class PracticalWorkDocXPipeline : IPipeline
     {
         private readonly DocXContext _context;
-        public PracticalWorkDocXPipeline(DocXContext doc)
+        public PracticalWorkDocXPipeline(DocXContext doc, PracticalWorkOptions options)
         {
             _context = doc;
         }

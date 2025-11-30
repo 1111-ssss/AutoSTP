@@ -8,10 +8,10 @@ namespace core.Model
         public String OutputPath = "output.docx";
         public bool Verbose = false;
         public String? Author;
-        public FileType FileType = FileType.None;
+        public FileType FileType = FileType.LabWork;
         public bool Open = false;
         public bool Save = false;
         public String? Rename;
-        public bool LoggerEnabled = false;
+        public bool LoggerEnabled = true;
     }
 }

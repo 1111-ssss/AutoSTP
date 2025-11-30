@@ -4,6 +4,7 @@ namespace core.Enums
     {
         None = 0,
         
+        
     }
     public static class ErrorCodeExtensions
     {

@@ -8,6 +8,7 @@ using infrastructure.Utils.UtilsDocX.Validate;
 using logger.Logger;
 using core.Interfaces;
 using System.Text.RegularExpressions;
+using core.Model;
 
 
 namespace application.Pipelines.OpenXML
@@ -15,7 +16,7 @@ namespace application.Pipelines.OpenXML
     public class PracticalWorkOpenXMLPipeline : IPipeline
     {
         private readonly OpenXmlContext _context;
-        public PracticalWorkOpenXMLPipeline(OpenXmlContext doc)
+        public PracticalWorkOpenXMLPipeline(OpenXmlContext doc, PracticalWorkOptions options)
         {
             _context = doc;
         }

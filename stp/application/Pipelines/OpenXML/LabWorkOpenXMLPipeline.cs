@@ -9,6 +9,7 @@ using infrastructure.OpenXML.Margins;
 using infrastructure.OpenXML.NamesProcessing;
 using core.Interfaces;
 using DocumentFormat.OpenXml.InkML;
+using core.Model;
 
 namespace application.Pipelines.OpenXML
 {
@@ -17,7 +18,7 @@ namespace application.Pipelines.OpenXML
         private OpenXmlContext _context;
         private PicturesNames _picturesNames;
 
-        public LabWorkOpenXMLPipeline(OpenXmlContext doc)
+        public LabWorkOpenXMLPipeline(OpenXmlContext doc, LabWorkOptions options)
         {
             _context = doc;
             // _picturesNames = picturesNames;
